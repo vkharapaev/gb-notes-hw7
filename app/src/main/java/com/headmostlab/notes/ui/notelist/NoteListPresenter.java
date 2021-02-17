@@ -54,6 +54,13 @@ public class NoteListPresenter extends ViewModel implements NoteListContract.Pre
             showNote();
         } else {
             note = null;
+            closeNote();
+        }
+    }
+
+    private void closeNote() {
+        if (view() != null) {
+            view().closeNote();
         }
     }
 
