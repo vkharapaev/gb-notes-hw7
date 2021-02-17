@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class NoteListFragment extends Fragment implements NoteListContract.View {
 
+    public static final String NOTE_TAG = "NOTE";
     private FragmentNoteListBinding binding;
     private NoteListContract.Presenter presenter;
     private NoteListAdapter adapter;
@@ -55,16 +57,17 @@ public class NoteListFragment extends Fragment implements NoteListContract.View 
         boolean isPortrait = getResources().getConfiguration().orientation ==
                 Configuration.ORIENTATION_PORTRAIT;
 
+        FragmentTransaction tran = getFragmentManager().beginTransaction();
         if (isPortrait) {
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, NoteFragment.newNoteFragment(note))
-                    .addToBackStack("note")
+            Fragment fragment = getFragmentManager().findFragmentByTag(NOTE_TAG);
+            if (fragment != null) {
+                tran.remove(fragment);
+            }
+            tran.replace(R.id.container, NoteFragment.newNoteFragment(note), NOTE_TAG)
+                    .addToBackStack(null)
                     .commit();
         } else {
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.noteContainer, NoteFragment.newNoteFragment(note))
+            tran.replace(R.id.noteContainer, NoteFragment.newNoteFragment(note), NOTE_TAG)
                     .commit();
         }
     }
