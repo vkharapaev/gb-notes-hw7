@@ -1,6 +1,7 @@
 package com.headmostlab.notes.model;
 
 import android.os.Parcel;
+import android.os.ParcelUuid;
 import android.os.Parcelable;
 
 import java.util.Date;
@@ -23,6 +24,19 @@ public class Note implements Parcelable {
         title = in.readString();
         description = in.readString();
         creationDate = new Date(in.readLong());
+    }
+
+    @Override
+    public String toString() {
+        return "Note{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", creationDate=" + creationDate +
+                '}';
+    }
+
+    public String toHumanString() {
+        return String.format("%s\n%s\n%s", title, description, creationDate);
     }
 
     @Override

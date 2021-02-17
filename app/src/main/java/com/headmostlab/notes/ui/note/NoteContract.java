@@ -7,6 +7,8 @@ import java.util.Date;
 public interface NoteContract {
     interface View {
         void show(Note note);
+
+        void share(Note note);
     }
 
     interface Presenter {
@@ -15,5 +17,7 @@ public interface NoteContract {
         void setNote(Note note);
 
         void setCreateDate(Date selection);
+
+        void share();
     }
 }

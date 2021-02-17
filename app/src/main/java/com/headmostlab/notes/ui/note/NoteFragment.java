@@ -1,8 +1,12 @@
 package com.headmostlab.notes.ui.note;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.headmostlab.notes.R;
 import com.headmostlab.notes.databinding.FragmentNoteBinding;
 import com.headmostlab.notes.model.Note;
 
@@ -48,6 +53,8 @@ public class NoteFragment extends Fragment implements NoteContract.View {
         if (getArguments() != null) {
             presenter.setNote(getArguments().getParcelable(NOTE_KEY));
         }
+
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -73,5 +80,28 @@ public class NoteFragment extends Fragment implements NoteContract.View {
         binding.title.setText(note.getTitle());
         binding.description.setText(note.getDescription());
         binding.createDate.setText(DateFormat.getDateInstance().format(note.getCreationDate()));
+    }
+
+    @Override
+    public void share(Note note) {
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, note.toHumanString());
+        sendIntent.setType("text/plain");
+        Intent shareIntent = Intent.createChooser(sendIntent, getString(R.string.share));
+        startActivity(shareIntent);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.note_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_share) {
+            presenter.share();
+            return true;
+        }
+        return false;
     }
 }
