@@ -4,4 +4,8 @@
     <string name="description">Description</string>
     <string name="create_date">Create date</string>
     <string name="pick_date">Pick Date</string>
+    <string name="fragment_navigation">Fragment Navigation</string>
+    <string name="navigation_drawer_open">Navigation drawer open</string>
+    <string name="navigation_drawer_close">Navigation drawer close</string>
+    <string name="about">About</string>
 </resources>
