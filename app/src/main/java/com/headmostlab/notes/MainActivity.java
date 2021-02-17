@@ -6,32 +6,42 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.headmostlab.notes.databinding.ActivityMainBinding;
+import com.headmostlab.notes.ui.about.AboutFragment;
 import com.headmostlab.notes.ui.notelist.NoteListFragment;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String FRAGMENT_MAIN = "main";
+    public static final String FRAGMENT_ABOUT = "about";
 
     private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-
         setContentView(binding.getRoot());
-
         initView();
-
         if (savedInstanceState != null) {
             return;
         }
+        navigate(NoteListFragment.newNoteListFragment(), FRAGMENT_MAIN, false);
+    }
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, NoteListFragment.newNoteListFragment())
-                .commitNow();
+    private void navigate(Fragment fragment, String tag, boolean addToBackStack) {
+        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
+            return;
+        }
+        FragmentTransaction tran = getSupportFragmentManager().beginTransaction();
+        tran.replace(R.id.container, fragment, tag);
+        if (addToBackStack) {
+            tran.addToBackStack(null);
+        }
+        tran.commit();
     }
 
     private void initView() {
@@ -56,16 +66,13 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
-
     }
 
     private boolean navigateFragment(int menuId) {
-        switch (menuId) {
-            case R.id.action_about:
-                // TODO: 2/17/2021
-                return true;
+        if (menuId == R.id.action_about) {
+            navigate(AboutFragment.newInstance(), FRAGMENT_ABOUT, true);
+            return true;
         }
         return false;
     }
-
 }
