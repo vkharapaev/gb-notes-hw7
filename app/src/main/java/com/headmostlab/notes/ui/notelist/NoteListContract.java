@@ -9,6 +9,8 @@ public interface NoteListContract {
         void show(Note note);
 
         void show(ArrayList<Note> notes);
+
+        void closeNote();
     }
 
     interface Presenter {

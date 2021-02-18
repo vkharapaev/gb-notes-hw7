@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class NoteListFragment extends Fragment implements NoteListContract.View {
 
+    public static final String NOTE_TAG = "NOTE";
     private FragmentNoteListBinding binding;
     private NoteListContract.Presenter presenter;
     private NoteListAdapter adapter;
@@ -56,15 +58,17 @@ public class NoteListFragment extends Fragment implements NoteListContract.View 
                 Configuration.ORIENTATION_PORTRAIT;
 
         if (isPortrait) {
-            getFragmentManager()
+            getParentFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.container, NoteFragment.newNoteFragment(note))
-                    .addToBackStack("note")
+                    .setReorderingAllowed(true)
+                    .replace(R.id.container, NoteFragment.newNoteFragment(note), NOTE_TAG)
+                    .addToBackStack(null)
                     .commit();
         } else {
-            getFragmentManager()
+            getChildFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.noteContainer, NoteFragment.newNoteFragment(note))
+                    .setReorderingAllowed(true)
+                    .replace(R.id.childContainer, NoteFragment.newNoteFragment(note), NOTE_TAG)
                     .commit();
         }
     }
@@ -72,6 +76,19 @@ public class NoteListFragment extends Fragment implements NoteListContract.View 
     @Override
     public void show(ArrayList<Note> notes) {
         adapter.setNotes(notes);
+    }
+
+    @Override
+    public void closeNote() {
+        removeFragment(getParentFragmentManager(), NOTE_TAG);
+        removeFragment(getChildFragmentManager(), NOTE_TAG);
+    }
+
+    private void removeFragment(FragmentManager fm, String tag) {
+        Fragment fragment = fm.findFragmentByTag(tag);
+        if (fragment != null) {
+            fm.beginTransaction().remove(fragment).commit();
+        }
     }
 
     private class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHolder> {

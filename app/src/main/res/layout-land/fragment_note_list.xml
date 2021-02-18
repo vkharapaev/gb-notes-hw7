@@ -14,8 +14,8 @@
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-    <FrameLayout
-        android:id="@+id/noteContainer"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/childContainer"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1" />

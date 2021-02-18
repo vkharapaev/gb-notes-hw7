@@ -39,6 +39,13 @@ public class NotePresenter extends ViewModel implements NoteContract.Presenter {
         showNote();
     }
 
+    @Override
+    public void share() {
+        if (view() != null) {
+            view().share(note);
+        }
+    }
+
     private void showNote() {
         if (note != null && view() != null) {
             view().show(note);
