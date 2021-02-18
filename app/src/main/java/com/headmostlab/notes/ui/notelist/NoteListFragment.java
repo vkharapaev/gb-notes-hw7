@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,12 +60,14 @@ public class NoteListFragment extends Fragment implements NoteListContract.View 
         if (isPortrait) {
             getParentFragmentManager()
                     .beginTransaction()
+                    .setReorderingAllowed(true)
                     .replace(R.id.container, NoteFragment.newNoteFragment(note), NOTE_TAG)
                     .addToBackStack(null)
                     .commit();
         } else {
             getChildFragmentManager()
                     .beginTransaction()
+                    .setReorderingAllowed(true)
                     .replace(R.id.childContainer, NoteFragment.newNoteFragment(note), NOTE_TAG)
                     .commit();
         }

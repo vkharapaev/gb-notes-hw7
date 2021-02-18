@@ -1,7 +1,6 @@
 package com.headmostlab.notes;
 
 import android.os.Bundle;
-import android.view.Gravity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -37,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
         if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
             return;
         }
-        FragmentTransaction tran = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction tran = getSupportFragmentManager()
+                .beginTransaction()
+                .setReorderingAllowed(true);
         tran.replace(R.id.container, fragment, tag);
         if (addToBackStack) {
             tran.addToBackStack(null);
