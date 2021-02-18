@@ -66,7 +66,7 @@ public class NoteFragment extends Fragment implements NoteContract.View {
         picker.addOnPositiveButtonClickListener(selection ->
                 presenter.setCreateDate(new Date(selection)));
         binding.pickDateButton.setOnClickListener(v ->
-                picker.show(getFragmentManager(), picker.toString()));
+                picker.show(getParentFragmentManager(), picker.toString()));
         return binding.getRoot();
     }
 

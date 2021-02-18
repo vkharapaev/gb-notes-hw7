@@ -59,7 +59,7 @@ public class NoteListFragment extends Fragment implements NoteListContract.View 
                 Configuration.ORIENTATION_PORTRAIT;
 
         if (isPortrait) {
-            getFragmentManager()
+            getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.container, NoteFragment.newNoteFragment(note), NOTE_TAG)
                     .addToBackStack(null)
@@ -79,7 +79,7 @@ public class NoteListFragment extends Fragment implements NoteListContract.View 
 
     @Override
     public void closeNote() {
-        removeFragment(getFragmentManager(), NOTE_TAG);
+        removeFragment(getParentFragmentManager(), NOTE_TAG);
         removeFragment(getChildFragmentManager(), NOTE_TAG);
     }
 
