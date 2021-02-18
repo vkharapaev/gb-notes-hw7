@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean navigateFragment(int menuId) {
         if (menuId == R.id.action_about) {
-            navigate(AboutFragment.newInstance(), FRAGMENT_ABOUT, true);
+            navigate(new AboutFragment(), FRAGMENT_ABOUT, true);
             return true;
         }
         return false;
